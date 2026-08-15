@@ -1,4 +1,5 @@
 -- Migration: Add location and featured fields to media table
+USE test;
 
 -- Step 1: Add new columns to media table
 ALTER TABLE media 

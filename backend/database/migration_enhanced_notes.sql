@@ -1,6 +1,7 @@
 -- Migration: Enhanced Notes Feature
 -- Date: 2026-08-14
 -- Description: Add theme, frame, and stickers support to monthly_notes
+USE test;
 
 -- Add new columns to monthly_notes table
 ALTER TABLE monthly_notes
