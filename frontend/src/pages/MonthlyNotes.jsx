@@ -111,7 +111,7 @@ export default function MonthlyNotes() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-playfair font-bold mb-2">Monthly Notes</h1>
+            <h1 className="text-3xl sm:text-4xl font-playfair font-bold mb-2">Monthly Notes</h1>
             <p className="text-gray-600">
               {isAuthenticated 
                 ? 'Tulis pesan rahasia yang akan terbuka di akhir bulan'

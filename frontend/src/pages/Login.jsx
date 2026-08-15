@@ -45,14 +45,14 @@ export default function Login() {
           <div className="flex justify-center mb-4">
             <Heart className="w-16 h-16 text-rose" fill="currentColor" />
           </div>
-          <h1 className="text-4xl font-playfair font-bold text-charcoal mb-2">
+          <h1 className="text-3xl sm:text-4xl font-playfair font-bold text-charcoal mb-2">
             Our Moments
           </h1>
           <p className="text-gray-600">Simpan kenangan bersama selamanya</p>
         </div>
 
         <div className="card">
-          <h2 className="text-2xl font-playfair font-bold text-center mb-6">
+          <h2 className="text-xl sm:text-2xl font-playfair font-bold text-center mb-6">
             Login
           </h2>
 
