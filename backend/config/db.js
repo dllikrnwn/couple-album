@@ -4,7 +4,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const pool = process.env.DATABASE_URL
-  ? mysql.createPool(process.env.DATABASE_URL)
+  ? mysql.createPool({
+      uri: process.env.DATABASE_URL.replace(/[?&]ssl-mode=[^&]*/i, ''),
+      ssl: {}
+    })
   : mysql.createPool({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
