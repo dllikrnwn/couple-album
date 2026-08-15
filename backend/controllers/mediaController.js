@@ -1,38 +1,29 @@
 import { query } from '../config/db.js';
-import { uploadToCloudinary, deleteFromCloudinary } from '../config/cloudinary.js';
-import fs from 'fs';
+import { deleteFromCloudinary } from '../config/cloudinary.js';
 
+// Upload metadata - file sudah diupload langsung ke Cloudinary dari frontend.
+// Backend hanya menerima { url, publicId, type, caption, location, uploadDate, isPublic }
 export const uploadMedia = async (req, res) => {
   try {
-    const { caption, uploadDate, isPublic, location } = req.body;
-    const file = req.file;
+    const { url, publicId, type, caption, uploadDate, isPublic, location } = req.body;
 
-    if (!file) {
-      return res.status(400).json({ message: 'No file uploaded' });
+    if (!url || !publicId || !type) {
+      return res.status(400).json({ message: 'url, publicId, and type are required' });
     }
-
-    // Upload to Cloudinary
-    const cloudinaryResult = await uploadToCloudinary(file);
-
-    // Delete local file after upload
-    fs.unlinkSync(file.path);
-
-    // Determine media type
-    const type = file.mimetype.startsWith('video') ? 'video' : 'photo';
 
     // Single user system: Always auto-approve
     const status = 'approved';
 
     const result = await query(
       'INSERT INTO media (user_id, cloudinary_url, cloudinary_public_id, type, caption, upload_date, location, status, is_public) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [req.user.id, cloudinaryResult.url, cloudinaryResult.publicId, type, caption, uploadDate, location || null, status, isPublic !== 'false']
+      [req.user.id, url, publicId, type, caption || null, uploadDate, location || null, status, isPublic !== 'false']
     );
 
     res.status(201).json({
       message: 'Media uploaded successfully',
       media: {
         id: result.insertId,
-        url: cloudinaryResult.url,
+        url,
         type,
         caption,
         location: location || null,

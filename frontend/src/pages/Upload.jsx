@@ -40,17 +40,35 @@ export default function Upload() {
     setMessage({ type: '', text: '' });
 
     try {
-      const formData = new FormData();
-      formData.append('media', file);
-      formData.append('caption', caption);
-      formData.append('location', location);
-      formData.append('uploadDate', uploadDate);
-      formData.append('isPublic', isPublic);
+      // Step 1: Upload file langsung ke Cloudinary (unsigned preset) - bypass body limit
+      const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+      const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+      if (!CLOUD_NAME || !UPLOAD_PRESET) {
+        throw new Error('Cloudinary config missing in .env (VITE_CLOUDINARY_CLOUD_NAME / VITE_CLOUDINARY_UPLOAD_PRESET)');
+      }
 
-      const { data } = await api.post('/media/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const uploadData = new FormData();
+      uploadData.append('file', file);
+      uploadData.append('upload_preset', UPLOAD_PRESET);
+      uploadData.append('cloud_name', CLOUD_NAME);
+
+      const uploadRes = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
+        { method: 'POST', body: uploadData }
+      );
+      if (!uploadRes.ok) throw new Error('Upload ke Cloudinary gagal');
+      const uploaded = await uploadRes.json();
+
+      // Step 2: Kirim metadata (url/publicId) ke backend untuk disimpan di database
+      const type = file.type.startsWith('video') ? 'video' : 'photo';
+      const { data } = await api.post('/media/upload', {
+        url: uploaded.secure_url,
+        publicId: uploaded.public_id,
+        type,
+        caption,
+        location,
+        uploadDate,
+        isPublic,
       });
 
       setMessage({ 
@@ -68,7 +86,7 @@ export default function Upload() {
     } catch (error) {
       setMessage({ 
         type: 'error', 
-        text: error.response?.data?.message || 'Upload failed. Please try again.' 
+        text: error.response?.data?.message || error.message || 'Upload failed. Please try again.' 
       });
     } finally {
       setUploading(false);

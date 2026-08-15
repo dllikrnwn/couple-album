@@ -11,11 +11,10 @@ import {
   getAvailableMonths
 } from '../controllers/mediaController.js';
 import { protect } from '../middleware/auth.js';
-import { upload } from '../middleware/upload.js';
 
 const router = express.Router();
 
-router.post('/upload', protect, upload.single('media'), uploadMedia);
+router.post('/upload', protect, uploadMedia);
 router.get('/all', protect, getAllMedia);
 router.get('/approved', getApprovedMedia);
 router.get('/monthly', getMonthlyMedia);
