@@ -8,6 +8,7 @@ import mediaRoutes from './routes/mediaRoutes.js';
 import milestoneRoutes from './routes/milestoneRoutes.js';
 import noteRoutes from './routes/noteRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
+import eventsRoutes from './routes/eventsRoutes.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use('/api/media', mediaRoutes);
 app.use('/api/milestones', milestoneRoutes);
 app.use('/api/notes', noteRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/events', eventsRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
