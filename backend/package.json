@@ -2,7 +2,6 @@
   "name": "couple-album-backend",
   "version": "1.0.0",
   "description": "Backend API for couple photo album",
-  "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
