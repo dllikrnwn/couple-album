@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS couple_album;
-USE couple_album;
-
 CREATE TABLE users (
   id INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(50) UNIQUE NOT NULL,
