@@ -138,7 +138,7 @@ export default function NoteCanvas({
       className="note-canvas relative overflow-hidden"
       style={{
         width: '100%',
-        minHeight: '400px',
+        minHeight: 'min(400px, 55vh)',
         ...themeStyle,
         ...frameStyle,
       }}
@@ -147,7 +147,7 @@ export default function NoteCanvas({
         ref={textareaRef}
         value={content}
         onChange={(e) => onChangeContent(e.target.value)}
-        className="w-full min-h-[400px] p-8 bg-transparent resize-none focus:outline-none z-10"
+        className="w-full min-h-[50vh] sm:min-h-[50vh] sm:min-h-[400px] p-8 bg-transparent resize-none focus:outline-none z-10"
         style={{
           fontFamily: 'inherit',
           fontSize: '16px',

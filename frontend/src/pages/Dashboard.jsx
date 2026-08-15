@@ -138,7 +138,7 @@ export default function Dashboard() {
   }
 
   const featuredPhoto = monthlyMedia.length > 0 ? monthlyMedia[0] : null;
-  const gridPhotos = monthlyMedia.slice(1, 7);
+  const gridPhotos = monthlyMedia.slice(1);
 
   // Filter notes for guest (only show unlocked)
   const displayNotes = isAuthenticated 
@@ -266,20 +266,6 @@ export default function Dashboard() {
                       />
                     ))}
                   </div>
-                </div>
-              )}
-
-              {monthlyMedia.length > 7 && (
-                <div className="text-center mt-6">
-                  <p className="text-gray-600 mb-3">
-                    Showing 7 of {monthlyMedia.length} photos from {monthNames[selectedMonth - 1]} {selectedYear}
-                  </p>
-                  <a
-                    href="/gallery"
-                    className="text-rose font-medium hover:underline"
-                  >
-                    View All {monthNames[selectedMonth - 1]} Photos →
-                  </a>
                 </div>
               )}
             </>

@@ -53,9 +53,8 @@ export default function NoteCard({ note, showAuthor = true, showLocked = true })
       </div>
 
       <div
-        className="relative"
+        className="relative min-h-[180px] sm:min-h-[300px]"
         style={{
-          minHeight: '300px',
           ...themeStyle,
           ...frameStyle,
         }}
@@ -127,13 +126,12 @@ export default function NoteCard({ note, showAuthor = true, showLocked = true })
         )}
       </div>
 
-      <div className="px-4 py-3 border-t border-border flex justify-between items-center">
+      <div className="px-4 py-3 border-t border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
         {showAuthor && (
           <p className="text-sm text-gray-500 italic">— {note.username}</p>
         )}
-        {!showAuthor && <span />}
         
-        <span className="text-xs text-gray-400">
+        <span className="text-xs text-gray-400 text-left sm:text-right">
           {note.theme !== 'default' && `🎨 ${note.theme.replace(/_/g, ' ')}`}
           {note.frame !== 'none' && note.theme !== 'default' && ' • '}
           {note.frame !== 'none' && `🖼️ ${note.frame.replace(/_/g, ' ')}`}

@@ -37,12 +37,7 @@ export default function NoteEditor({ note, onSave, onCancel }) {
 
     setSaving(true);
     try {
-      await onSave({
-        content,
-        theme,
-        frame,
-        stickers,
-      });
+      await onSave({ content, theme, frame, stickers });
     } catch (error) {
       console.error('Failed to save note:', error);
       alert('Failed to save note. Please try again.');
@@ -52,42 +47,37 @@ export default function NoteEditor({ note, onSave, onCancel }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-0 sm:p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-xl shadow-xl w-full max-w-4xl h-[90vh] overflow-hidden flex flex-col"
+        className="bg-white rounded-none sm:rounded-xl shadow-xl w-full max-w-4xl h-[100dvh] sm:h-[90vh] overflow-hidden flex flex-col"
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-          <h2 className="text-2xl font-playfair font-bold">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border">
+          <h2 className="text-xl sm:text-2xl font-playfair font-bold">
             {note ? 'Edit Note' : 'Write Monthly Note'}
           </h2>
-          <button
-            onClick={onCancel}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
-          >
+          <button onClick={onCancel} className="text-gray-500 hover:text-gray-700 transition-colors">
             <X className="w-6 h-6" />
           </button>
         </div>
 
-        <div className="flex items-center gap-4 px-6 py-4 border-b border-border bg-gray-50">
+        <div className="flex flex-wrap items-center gap-3 px-4 sm:px-6 py-3 border-b border-border bg-gray-50">
           <ThemeSelector selectedTheme={theme} onThemeChange={setTheme} />
           <FrameSelector selectedFrame={frame} onFrameChange={setFrame} />
           <button
             onClick={() => setShowStickerPanel(!showStickerPanel)}
             className={`px-4 py-2 rounded-lg transition-colors ${
-              showStickerPanel
-                ? 'bg-rose text-white'
-                : 'bg-white border border-border hover:border-rose'
+              showStickerPanel ? 'bg-rose text-white' : 'bg-white border border-border hover:border-rose'
             }`}
           >
             ✨ Stickers
           </button>
         </div>
 
-        <div className="flex flex-1 overflow-hidden min-h-0">
-          <div className="flex-1 p-6 overflow-y-auto min-w-0 min-h-0">
+        <div className="flex flex-1 overflow-hidden min-h-0 flex-col md:flex-row">
+          <div className="flex-1 p-3 sm:p-6 overflow-y-auto min-w-0 min-h-0">
             <NoteCanvas
               content={content}
               onChangeContent={setContent}
@@ -101,10 +91,10 @@ export default function NoteEditor({ note, onSave, onCancel }) {
           <AnimatePresence>
             {showStickerPanel && (
               <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 280, opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
-                className="border-l border-border overflow-y-auto"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-y-auto border-t md:border-t-0 md:border-l border-border md:w-[280px] md:shrink-0"
               >
                 <StickerPanel onStickerAdd={handleStickerAdd} />
               </motion.div>
@@ -112,18 +102,12 @@ export default function NoteEditor({ note, onSave, onCancel }) {
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-border bg-gray-50">
-          <button
-            onClick={() => setShowPreview(true)}
-            className="btn-secondary flex items-center gap-2"
-          >
+        <div className="flex items-center justify-end gap-3 px-4 sm:px-6 py-4 border-t border-border bg-gray-50">
+          <button onClick={() => setShowPreview(true)} className="btn-secondary flex items-center gap-2">
             <Eye className="w-4 h-4" />
             Preview
           </button>
-          <button
-            onClick={onCancel}
-            className="px-6 py-2.5 text-gray-600 hover:text-gray-800 transition-colors"
-          >
+          <button onClick={onCancel} className="px-4 sm:px-6 py-2.5 text-gray-600 hover:text-gray-800 transition-colors">
             Cancel
           </button>
           <button
@@ -153,13 +137,12 @@ export default function NoteEditor({ note, onSave, onCancel }) {
 }
 
 function NotePreview({ content, theme, frame, stickers, onClose }) {
-  
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/80 z-[60] flex items-center justify-center p-8"
+      className="fixed inset-0 bg-black/80 z-[60] flex items-center justify-center p-4 sm:p-8"
       onClick={onClose}
     >
       <motion.div
@@ -169,10 +152,10 @@ function NotePreview({ content, theme, frame, stickers, onClose }) {
         className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6">
-          <h3 className="text-xl font-playfair font-bold mb-4">Preview</h3>
+        <div className="p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-playfair font-bold mb-4">Preview</h3>
           <div
-            className="relative min-h-[400px] p-8"
+            className="relative min-h-[220px] sm:min-h-[400px] p-4 sm:p-8"
             style={{
               ...getThemeStyle(theme),
               ...getFrameStyle(frame),
@@ -200,11 +183,9 @@ function NotePreview({ content, theme, frame, stickers, onClose }) {
             ))}
           </div>
         </div>
-        <div className="flex justify-end gap-3 p-4 border-t border-border">
-          <button onClick={onClose} className="btn-secondary">
-            Close Preview
-          </button>
-        </div>
+        <button onClick={onClose} className="w-full p-4 border-t border-border btn-secondary">
+          Close Preview
+        </button>
       </motion.div>
     </motion.div>
   );
