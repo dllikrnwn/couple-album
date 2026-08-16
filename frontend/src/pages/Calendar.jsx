@@ -12,7 +12,7 @@ const DOW = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 // ponytail: legacy rows contain corrupted emoji defaults; fall back to a clean icon
 const safeEmoji = (evo) => (evo && !/^dY/.test(evo) ? evo : EMOJIS[0]);
 
-export default function Calendar() {
+export default function CalendarPage() {
   const { user, isAuthenticated } = useAuth();
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
