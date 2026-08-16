@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Heart, Upload, Calendar, BookOpen, LogOut, Home, Menu, X } from 'lucide-react';
+import { Heart, Upload, Calendar, CalendarDays, BookOpen, LogOut, Home, Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const { user, logout, loginAsGuest, isAuthenticated, isGuest } = useAuth();
@@ -34,7 +34,7 @@ export default function Navbar() {
     { path: '/dashboard', label: 'Dashboard', icon: Home },
     { path: '/gallery', label: 'Gallery', icon: Heart },
     { path: '/upload', label: 'Upload', icon: Upload },
-    { path: '/calendar', label: 'Kalender', icon: Calendar },
+    { path: '/calendar', label: 'Kalender', icon: CalendarDays },
     { path: '/milestones', label: 'Milestones', icon: Calendar },
     { path: '/notes', label: 'Notes', icon: BookOpen },
   ];

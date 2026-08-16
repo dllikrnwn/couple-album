@@ -5,12 +5,19 @@ import api from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Plus, Edit2, Trash2, Lock } from 'lucide-react';
 
-const EMOJIS = ['🎉', '💕', '🌹', '❤️', '💍', '🍽️', '✈️', '🎂', '🌴', '⭐', '🎁', '🧸'];
+const EMOJI_GROUPS = [
+  { label: 'Rayakan', emojis: ['🎉', '🎂', '🎈', '🎁', '🎊', '🏆', '🥂', '🎆'] },
+  { label: 'Cinta', emojis: ['💕', '❤️', '💍', '💞', '🌹', '🥰', '😍', '💖'] },
+  { label: 'Makanan', emojis: ['🍽️', '🍜', '☕', '🍕', '🍰', '🍫', '🍩', '🍷'] },
+  { label: 'Aktivitas', emojis: ['✈️', '🏖️', '🌴', '🎬', '🎤', '🎢', '⛰️', '🚗'] },
+  { label: 'Alam', emojis: ['🌸', '🌻', '🍁', '🌙', '⭐', '☀️', '🌈', '☔'] },
+  { label: 'Lainnya', emojis: ['🎵', '📸', '🧸', '🦋', '👶', '🏠', '🐶', '🐱', '🚀', '💤'] },
+];
 const MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 const DOW = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 
 // ponytail: legacy rows contain corrupted emoji defaults; fall back to a clean icon
-const safeEmoji = (evo) => (evo && !/^dY/.test(evo) ? evo : EMOJIS[0]);
+const safeEmoji = (evo) => (evo && !/^dY/.test(evo) ? evo : EMOJI_GROUPS[0].emojis[0]);
 
 export default function CalendarPage() {
   const { user, isAuthenticated } = useAuth();
@@ -23,7 +30,7 @@ export default function CalendarPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({ title: '', description: '', eventDate: '', emoji: EMOJIS[0] });
+  const [formData, setFormData] = useState({ title: '', description: '', eventDate: '', emoji: EMOJI_GROUPS[0].emojis[0] });
 
   useEffect(() => {
     if (isAuthenticated) fetchMonth();
@@ -84,7 +91,7 @@ export default function CalendarPage() {
 
   const openAdd = (date) => {
     setEditingId(null);
-    setFormData({ title: '', description: '', eventDate: date, emoji: EMOJIS[0] });
+    setFormData({ title: '', description: '', eventDate: date, emoji: EMOJI_GROUPS[0].emojis[0] });
     setShowForm(true);
   };
 
@@ -207,16 +214,23 @@ export default function CalendarPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Emoji</label>
-                <div className="flex flex-wrap gap-2">
-                  {EMOJIS.map((em) => (
-                    <button
-                      key={em}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, emoji: em })}
-                      className={`p-2 rounded-lg border text-xl transition-colors ${formData.emoji === em ? 'border-rose bg-rose-light/20' : 'border-border hover:border-rose'}`}
-                    >
-                      {em}
-                    </button>
+                <div className="space-y-3">
+                  {EMOJI_GROUPS.map((group) => (
+                    <div key={group.label}>
+                      <p className="text-xs text-gray-400 mb-1.5">{group.label}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {group.emojis.map((em) => (
+                          <button
+                            key={em}
+                            type="button"
+                            onClick={() => setFormData({ ...formData, emoji: em })}
+                            className={`p-1.5 rounded-lg border text-xl transition-colors ${formData.emoji === em ? 'border-rose bg-rose-light/20' : 'border-border hover:border-rose'}`}
+                          >
+                            {em}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
