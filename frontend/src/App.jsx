@@ -8,6 +8,7 @@ import Upload from './pages/Upload';
 import Milestones from './pages/Milestones';
 import MonthlyNotes from './pages/MonthlyNotes';
 import PublicGallery from './pages/PublicGallery';
+import Calendar from './pages/Calendar';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/milestones" element={<Milestones />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="/notes" element={<MonthlyNotes />} />
           <Route path="/public/:token" element={<PublicGallery />} />
           
